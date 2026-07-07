@@ -59,6 +59,23 @@ export interface Database {
         };
         Update: Partial<Database["public"]["Tables"]["aluno_profiles"]["Insert"]>;
       };
+      registro_agua: {
+        Row: {
+          id: string;
+          aluno_id: string;
+          data: string;
+          quantidade_ml: number;
+          meta_ml: number;
+        };
+        Insert: {
+          id?: string;
+          aluno_id: string;
+          data?: string;
+          quantidade_ml?: number;
+          meta_ml?: number;
+        };
+        Update: Partial<Database["public"]["Tables"]["registro_agua"]["Insert"]>;
+      };
     };
   };
 }
