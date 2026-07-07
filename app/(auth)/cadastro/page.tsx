@@ -53,16 +53,16 @@ export default function CadastroPage() {
       email: data.email,
       nome: data.nome,
       role: data.role,
-    });
+    } as never);
     if (userError) {
       setErro(userError.message);
       return;
     }
 
     if (data.role === "personal") {
-      await supabase.from("personal_profiles").insert({ id: userId });
+      await supabase.from("personal_profiles").insert({ id: userId } as never);
     } else {
-      await supabase.from("aluno_profiles").insert({ id: userId });
+      await supabase.from("aluno_profiles").insert({ id: userId } as never);
     }
 
     router.push(data.role === "personal" ? "/dashboard" : "/hoje");
@@ -126,3 +126,4 @@ export default function CadastroPage() {
     </div>
   );
 }
+      
