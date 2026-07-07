@@ -80,6 +80,27 @@ export interface Database {
         };
         Update: Partial<Database["public"]["Tables"]["registro_agua"]["Insert"]>;
       };
+      pagamentos: {
+        Row: {
+          id: string;
+          aluno_id: string;
+          personal_id: string;
+          valor: number;
+          data_vencimento: string;
+          data_pagamento: string | null;
+          status: "pago" | "pendente" | "atrasado";
+        };
+        Insert: {
+          id?: string;
+          aluno_id: string;
+          personal_id: string;
+          valor: number;
+          data_vencimento: string;
+          data_pagamento?: string | null;
+          status?: "pago" | "pendente" | "atrasado";
+        };
+        Update: Partial<Database["public"]["Tables"]["pagamentos"]["Insert"]>;
+      };
     };
   };
 }
