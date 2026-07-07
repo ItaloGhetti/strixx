@@ -11,7 +11,7 @@ export default async function DashboardPage() {
     .from("users")
     .select("nome")
     .eq("id", user?.id ?? "")
-    .single();
+    .single<{ nome: string }>();
 
   const { count: alunosAtivos } = await supabase
     .from("aluno_profiles")
