@@ -11,7 +11,7 @@ export default async function HojePage() {
     .from("users")
     .select("nome")
     .eq("id", user?.id ?? "")
-    .single();
+    .single<{ nome: string }>();
 
   const { data: agua } = await supabase
     .from("registro_agua")
@@ -62,4 +62,4 @@ export default async function HojePage() {
       </div>
     </div>
   );
-}
+
