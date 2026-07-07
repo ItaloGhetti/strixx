@@ -62,4 +62,6 @@ export default async function HojePage() {
       </div>
     </div>
   );
+  }
+
 
