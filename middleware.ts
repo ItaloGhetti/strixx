@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
       .from("users")
       .select("role")
       .eq("id", user.id)
-      .single();
+      .single<{ role: "personal" | "aluno" }>();
 
     const role = profile?.role;
     const home = role === "personal" ? "/dashboard" : "/hoje";
