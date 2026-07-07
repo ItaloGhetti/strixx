@@ -18,7 +18,7 @@ export default async function HojePage() {
     .select("quantidade_ml, meta_ml")
     .eq("aluno_id", user?.id ?? "")
     .eq("data", new Date().toISOString().slice(0, 10))
-    .single();
+    .single<{ quantidade_ml: number; meta_ml: number }>();
 
   const litros = ((agua?.quantidade_ml ?? 0) / 1000).toFixed(1);
   const meta = ((agua?.meta_ml ?? 3000) / 1000).toFixed(1);
