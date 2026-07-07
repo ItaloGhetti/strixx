@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Inter Tight", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+body {
+  @apply bg-gray-light text-black font-body antialiased;
+}
+
+/* Card padrão do design system: cantos arredondados, sombra suave, borda quase invisível */
+.card {
+  @apply bg-white rounded-xl border border-border shadow-sm p-5 transition-shadow duration-200;
+}
+.card:hover {
+  @apply shadow-md;
+}
+
+.stat-label {
+  @apply text-xs font-semibold text-black/50 mb-2 tracking-wide;
+}
+.stat-value {
+  @apply font-display text-2xl font-bold;
+}
+
+.btn-primary {
+  @apply w-full py-3 rounded-lg bg-purple text-white font-semibold text-sm
+         hover:bg-purple-dark transition-colors duration-150;
+}
+
+.input-field {
+  @apply w-full px-3.5 py-3 rounded-lg border border-border text-sm bg-white
+         focus:outline-none focus:border-purple focus:ring-4 focus:ring-purple/10
+         transition-colors duration-150;
+}
