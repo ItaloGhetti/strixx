@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -16,8 +16,10 @@ const roles = [
   { value: "aluno" as const, icon: "🎯", label: "Aluno" },
 ];
 
-export default function CadastroPage() {
+function CadastroForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const convitePersonalId = searchParams.get("convite");
   const supabase = createClient();
   const [erro, setErro] = useState<string | null>(null);
 
@@ -29,7 +31,7 @@ export default function CadastroPage() {
     formState: { errors, isSubmitting },
   } = useForm<CadastroInput>({
     resolver: zodResolver(cadastroSchema),
-    defaultValues: { role: "personal" },
+    defaultValues: { role: convitePersonalId ? "aluno" : "personal" },
   });
 
   const roleAtual = watch("role");
@@ -62,7 +64,10 @@ export default function CadastroPage() {
     if (data.role === "personal") {
       await supabase.from("personal_profiles").insert({ id: userId } as never);
     } else {
-      await supabase.from("aluno_profiles").insert({ id: userId } as never);
+      await supabase.from("aluno_profiles").insert({
+        id: userId,
+        personal_id: convitePersonalId ?? null,
+      } as never);
     }
 
     router.push(data.role === "personal" ? "/dashboard" : "/hoje");
@@ -76,24 +81,32 @@ export default function CadastroPage() {
         </div>
 
         <h2 className="mb-1.5 font-display text-2xl font-bold">Criar sua conta</h2>
-        <p className="mb-5 text-sm text-black/55">Você é:</p>
+        {convitePersonalId ? (
+          <p className="mb-5 rounded-lg bg-purple/10 px-3 py-2 text-xs font-semibold text-purple">
+            Você foi convidado(a) para entrar como aluno(a) 🎯
+          </p>
+        ) : (
+          <p className="mb-5 text-sm text-black/55">Você é:</p>
+        )}
 
-        <div className="mb-6 grid grid-cols-2 gap-2.5">
-          {roles.map((r) => (
-            <button
-              type="button"
-              key={r.value}
-              onClick={() => setValue("role", r.value)}
-              className={cn(
-                "rounded-xl border-[1.5px] border-border px-3 py-4 text-center transition-colors duration-150",
-                roleAtual === r.value && "border-purple bg-purple/[0.06]"
-              )}
-            >
-              <div className="mb-1.5 text-xl">{r.icon}</div>
-              <div className="text-[12.5px] font-semibold">{r.label}</div>
-            </button>
-          ))}
-        </div>
+        {!convitePersonalId && (
+          <div className="mb-6 grid grid-cols-2 gap-2.5">
+            {roles.map((r) => (
+              <button
+                type="button"
+                key={r.value}
+                onClick={() => setValue("role", r.value)}
+                className={cn(
+                  "rounded-xl border-[1.5px] border-border px-3 py-4 text-center transition-colors duration-150",
+                  roleAtual === r.value && "border-purple bg-purple/[0.06]"
+                )}
+              >
+                <div className="mb-1.5 text-xl">{r.icon}</div>
+                <div className="text-[12.5px] font-semibold">{r.label}</div>
+              </button>
+            ))}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <Field label="Nome">
@@ -126,4 +139,11 @@ export default function CadastroPage() {
     </div>
   );
 }
-      
+
+export default function CadastroPage() {
+  return (
+    <Suspense fallback={null}>
+      <CadastroForm />
+    </Suspense>
+  );
+}
