@@ -101,6 +101,70 @@ export interface Database {
         };
         Update: Partial<Database["public"]["Tables"]["pagamentos"]["Insert"]>;
       };
+      treinos_biblioteca: {
+        Row: {
+          id: string;
+          personal_id: string;
+          nome: string;
+          objetivo: string | null;
+          categoria: string;
+          observacoes: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          personal_id: string;
+          nome: string;
+          objetivo?: string | null;
+          categoria: string;
+          observacoes?: string | null;
+        };
+        Update: Partial<Database["public"]["Tables"]["treinos_biblioteca"]["Insert"]>;
+      };
+      exercicios: {
+        Row: {
+          id: string;
+          treino_id: string;
+          nome: string;
+          series: number | null;
+          repeticoes: string | null;
+          carga: string | null;
+          tempo: string | null;
+          descanso: string | null;
+          midia_url: string | null;
+          ordem: number;
+        };
+        Insert: {
+          id?: string;
+          treino_id: string;
+          nome: string;
+          series?: number | null;
+          repeticoes?: string | null;
+          carga?: string | null;
+          tempo?: string | null;
+          descanso?: string | null;
+          midia_url?: string | null;
+          ordem?: number;
+        };
+        Update: Partial<Database["public"]["Tables"]["exercicios"]["Insert"]>;
+      };
+      treinos_atribuidos: {
+        Row: {
+          id: string;
+          treino_id: string;
+          aluno_id: string;
+          data_envio: string;
+          status: string;
+          data_conclusao: string | null;
+        };
+        Insert: {
+          id?: string;
+          treino_id: string;
+          aluno_id: string;
+          status?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["treinos_atribuidos"]["Insert"]>;
+      };
     };
   };
 }
