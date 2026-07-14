@@ -20,6 +20,17 @@ const CATEGORIAS = [
   { value: "cardio", label: "Cardio" },
 ];
 
+interface ExercicioResumo {
+  nome: string;
+  series: number | null;
+  repeticoes: string | null;
+  carga: string | null;
+  tempo: string | null;
+  descanso: string | null;
+  midia_url: string | null;
+  ordem: number;
+}
+
 function labelCategoria(valor: string) {
   return CATEGORIAS.find((c) => c.value === valor)?.label ?? valor;
 }
@@ -63,18 +74,7 @@ export function TreinosClient({ treinos: treinosIniciais }: { treinos: TreinoLis
       .from("exercicios")
       .select("nome, series, repeticoes, carga, tempo, descanso, midia_url, ordem")
       .eq("treino_id", t.id)
-      .returns
-        {
-          nome: string;
-          series: number | null;
-          repeticoes: string | null;
-          carga: string | null;
-          tempo: string | null;
-          descanso: string | null;
-          midia_url: string | null;
-          ordem: number;
-        }[]
-      >();
+      .returns<ExercicioResumo[]>();
 
     if (exerciciosOriginais && exerciciosOriginais.length > 0) {
       await supabase.from("exercicios").insert(
