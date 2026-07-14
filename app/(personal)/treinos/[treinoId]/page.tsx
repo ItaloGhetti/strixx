@@ -1,6 +1,18 @@
 import { createClient } from "@/lib/supabase/server";
 import { TreinoForm } from "@/components/treinos/treino-form";
 
+interface ExercicioRaw {
+  id: string;
+  nome: string;
+  series: number | null;
+  repeticoes: string | null;
+  carga: string | null;
+  tempo: string | null;
+  descanso: string | null;
+  midia_url: string | null;
+  ordem: number;
+}
+
 export default async function EditarTreinoPage({ params }: { params: { treinoId: string } }) {
   const supabase = createClient();
   const {
@@ -18,19 +30,7 @@ export default async function EditarTreinoPage({ params }: { params: { treinoId:
     .select("id, nome, series, repeticoes, carga, tempo, descanso, midia_url, ordem")
     .eq("treino_id", params.treinoId)
     .order("ordem", { ascending: true })
-    .returns
-      {
-        id: string;
-        nome: string;
-        series: number | null;
-        repeticoes: string | null;
-        carga: string | null;
-        tempo: string | null;
-        descanso: string | null;
-        midia_url: string | null;
-        ordem: number;
-      }[]
-    >();
+    .returns<ExercicioRaw[]>();
 
   const { data: alunoProfiles } = await supabase
     .from("aluno_profiles")
