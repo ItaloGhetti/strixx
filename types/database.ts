@@ -33,12 +33,20 @@ export interface Database {
           nome_negocio: string | null;
           bio: string | null;
           meta_financeira_mes: number | null;
+          google_access_token: string | null;
+          google_refresh_token: string | null;
+          google_token_expiry: string | null;
+          google_connected: boolean;
         };
         Insert: {
           id: string;
           nome_negocio?: string | null;
           bio?: string | null;
           meta_financeira_mes?: number | null;
+          google_access_token?: string | null;
+          google_refresh_token?: string | null;
+          google_token_expiry?: string | null;
+          google_connected?: boolean;
         };
         Update: Partial<Database["public"]["Tables"]["personal_profiles"]["Insert"]>;
       };
@@ -164,6 +172,31 @@ export interface Database {
           status?: string;
         };
         Update: Partial<Database["public"]["Tables"]["treinos_atribuidos"]["Insert"]>;
+      };
+      agenda_aulas: {
+        Row: {
+          id: string;
+          personal_id: string;
+          aluno_id: string;
+          data_hora: string;
+          local: string | null;
+          status: string;
+          observacoes: string | null;
+          cor: string | null;
+          google_event_id: string | null;
+        };
+        Insert: {
+          id?: string;
+          personal_id: string;
+          aluno_id: string;
+          data_hora: string;
+          local?: string | null;
+          status?: string;
+          observacoes?: string | null;
+          cor?: string | null;
+          google_event_id?: string | null;
+        };
+        Update: Partial<Database["public"]["Tables"]["agenda_aulas"]["Insert"]>;
       };
     };
   };
